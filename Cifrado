@@ -1,0 +1,62 @@
+import java.util.Scanner;
+
+public class Cifrado {
+
+    public static void main(String[] args) {
+        final String alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        final String correspondencia = "BVWHGZMLXKONIYFSTUCEDPRAQJ";
+
+        Scanner sc = new Scanner(System.in);
+
+        // Pedimos si se quiere cifrar o descifrar
+        System.out.print("¿Quiere cifrar o descifrar? (C o D): ");
+        String opcion = sc.nextLine();
+
+        // Pedimos el texto a cifrar/descifrar
+        System.out.print("Introduzca el texto: ");
+        String texto = sc.nextLine().toUpperCase();
+
+        // Pedimos el número de veces que queremos repetir la correspondencia
+        System.out.print("¿Cuántas veces quiere repetir la correspondencia? (entre 2 y 5): ");
+        int numRepeticiones = sc.nextInt();
+        sc.nextLine(); // Consumimos el salto de línea
+
+        // Comprobamos que el número de repeticiones es válido
+        if (numRepeticiones < 2 || numRepeticiones > 5) {
+            System.out.println("El número de repeticiones debe estar entre 2 y 5.");
+            System.exit(1);
+        }
+
+        StringBuilder resultado = new StringBuilder();
+
+        // Iteramos por todos los caracteres del texto
+        for (int i = 0; i < texto.length(); i++) {
+            char c = texto.charAt(i);
+
+            // Si el caracter está en el rango A-Z, lo ciframos/desciframos
+            if (c >= 'A' && c <= 'Z') {
+                // Obtenemos la posición del caracter en el alfabeto
+                int pos = alfabeto.indexOf(c);
+
+                // Obtenemos el caracter cifrado/descifrado correspondiente
+                char cCifrado = correspondencia.charAt(pos);
+
+                // Iteramos el número de veces especificado, cambiando el caracter cifrado/descifrado por su correspondiente cada vez
+                for (int j = 0; j < numRepeticiones; j++) {
+                    pos = correspondencia.indexOf(cCifrado);
+                    cCifrado = alfabeto.charAt(pos);
+                }
+
+                // Añadimos el caracter cifrado/descifrado al resultado
+                resultado.append(cCifrado);
+            } else {
+                // Si el caracter no está en el rango A-Z, lo añadimos tal cual al resultado
+                resultado.append(c);
+            }
+        }
+
+        // Imprimimos el resultado
+        System.out.println("Resultado: " + resultado.toString());
+    }
+
+}
